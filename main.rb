@@ -10,7 +10,8 @@ require_relative 'parsing'
 def main()
     workbook = RubyXL::Parser.parse("Orders2.xlsx")
     orders = []
-    parse_file(orders, workbook)
+    packages = []
+    parse_file(orders, workbook, packages)
     print_orders(orders)
     #insert_db(orders)
 end
