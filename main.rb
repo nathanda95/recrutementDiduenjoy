@@ -53,6 +53,9 @@ def parse_label(item, label, val)
 end
 
 def parse_row(item, row)
+    if (row[0] == nil || row[1] == nil || row[2] == nil || row[3] == nil)
+        return
+    end
     parse_label(item, row[2].value, row[3].value)
     parse_package(item, row[0].value)
     parse_quantity(item, row[1].value)
@@ -61,15 +64,15 @@ end
 def parse_sheet(order, worksheet)
     worksheet.each do |row|
         next if (row == nil)
-        if (row[2].value == "name" && order.items[-1].nameCheck == true)
+        if (row[2] != nil && row[2].value == "name" && order.items[-1].nameCheck == true)
             item = Item.new
             order.items.push(item)
             parse_row(order.items[-1], row)
-        elsif (row[2].value == "price" && order.items[-1].priceCheck == true)
+        elsif (row[2] != nil && row[2].value == "price" && order.items[-1].priceCheck == true)
             item = Item.new
             order.items.push(item)
             parse_row(order.items[-1], row)
-        elsif (row[2].value == "ref" && order.items[-1].refCheck == true)
+        elsif (row[2] != nil && row[2].value == "ref" && order.items[-1].refCheck == true)
             item = Item.new
             order.items.push(item)
             parse_row(order.items[-1], row)
@@ -127,7 +130,7 @@ def print_orders(orders)
 end
 
 def main()
-    workbook = RubyXL::Parser.parse("Orders.xlsx")
+    workbook = RubyXL::Parser.parse("Orders2.xlsx")
     orders = []
     parse_file(orders, workbook)
     print_orders(orders)
