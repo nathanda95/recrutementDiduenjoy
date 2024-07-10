@@ -49,8 +49,6 @@ def parse_label(item, label, val)
         item.warranty = val
     when "duration"
         item.duration = val
-    else
-        warn 'Error wrong label.'
     end
 end
 
@@ -121,6 +119,7 @@ end
 
 def print_orders(orders)
     orders.each do |order|
+        puts '##############'
         puts order.name
         print_order(order)
         puts ''
