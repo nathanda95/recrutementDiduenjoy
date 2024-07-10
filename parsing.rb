@@ -38,14 +38,17 @@ def parse_sheet(order, worksheet)
         next if (row == nil)
         if (row[2] != nil && row[2].value == "name" && order.items[-1].nameCheck == true)
             item = Item.new
+            item.itemId = order.items[-1].itemId + 1
             order.items.push(item)
             parse_row(order.items[-1], row)
         elsif (row[2] != nil && row[2].value == "price" && order.items[-1].priceCheck == true)
             item = Item.new
+            item.itemId = order.items[-1].itemId + 1
             order.items.push(item)
             parse_row(order.items[-1], row)
         elsif (row[2] != nil && row[2].value == "ref" && order.items[-1].refCheck == true)
             item = Item.new
+            item.itemId = order.items[-1].itemId + 1
             order.items.push(item)
             parse_row(order.items[-1], row)
         else
@@ -57,37 +60,20 @@ end
 def parse_file(orders, workbook)
     workbook.worksheets.each do |sheet|
         order = Order.new
+        if (orders.size == 0)
+            order.id = 0
+        else
+            order.id = orders[-1].id + 1
+        end
         order.name = sheet.sheet_name
         item = Item.new
+        if (orders.size == 0)
+            item.itemId = 0
+        else
+            item.itemId = orders[-1].items[-1].itemId + 1
+        end
         order.items.push(item)
         parse_sheet(order, sheet)
         orders.push(order)
-    end
-end
-
-def print_order(order)
-    order.items.each do |it|
-        if (it.name != nil)
-            puts "Nom: #{it.name}"
-        end
-        if (it.price != nil)
-            puts "Prix: #{it.price}"
-        end
-        if (it.ref != nil)
-            puts "Ref: #{it.ref}"
-        end
-        if (it.packageId != nil)
-            puts "Package Id: #{it.packageId}"
-        end
-        if (it.warranty != nil)
-            puts "Garantie: #{it.warranty}"
-        end
-        if (it.duration != nil)
-            puts "Durée: #{it.duration}"
-        end
-        if (it.quantity != nil)
-            puts "Quantité: #{it.quantity}"
-        end
-        puts '--------------'
     end
 end
