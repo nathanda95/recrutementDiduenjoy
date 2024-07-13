@@ -38,3 +38,11 @@ def print_orders(orders)
         puts ''
     end
 end
+
+def print_package(packages)
+    packages.each do |package|
+        puts '----------------'
+        puts "Id: #{package.id}"
+        puts "Order Id: #{package.orderid}"
+    end
+end
